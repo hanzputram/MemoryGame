@@ -298,119 +298,6 @@
             background: #111827;
             color: #f9fafb;
         }
-
-        /* ===== AUTH AREA (login/register) ===== */
-
-        .auth-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            position: relative;
-        }
-
-        .auth-desktop {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .auth-link-login {
-            color: #a5b4fc;
-            text-decoration: none;
-            font-size: 0.85rem;
-            margin-right: 4px;
-        }
-
-        .auth-link-register {
-            padding: 4px 10px;
-            border-radius: 999px;
-            border: none;
-            background: #22c55e;
-            color: #0b1120;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
-
-        /* Mobile icon */
-        .auth-mobile {
-            display: none;
-            position: relative;
-        }
-
-        .auth-icon-btn {
-            border-radius: 999px;
-            border: 1px solid rgba(148, 163, 184, 0.9);
-            background: rgba(15, 23, 42, 0.9);
-            color: #e5e7eb;
-            width: 36px;
-            height: 36px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-
-        body.theme-minimal .auth-icon-btn {
-            background: #111827;
-            color: #f9fafb;
-        }
-
-        .auth-dropdown {
-            position: absolute;
-            right: 0;
-            top: 115%;
-            background: rgba(15, 23, 42, 0.98);
-            border-radius: 12px;
-            border: 1px solid rgba(148, 163, 184, 0.7);
-            min-width: 140px;
-            padding: 6px 0;
-            box-shadow: 0 15px 30px rgba(15, 23, 42, 0.9);
-            display: none;
-            z-index: 30;
-        }
-
-        body.theme-minimal .auth-dropdown {
-            background: #ffffff;
-            border-color: #e5e7eb;
-            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
-        }
-
-        .auth-dropdown a {
-            display: block;
-            padding: 6px 12px;
-            font-size: 0.85rem;
-            color: #e5e7eb;
-            text-decoration: none;
-        }
-
-        body.theme-minimal .auth-dropdown a {
-            color: #111827;
-        }
-
-        .auth-dropdown a:hover {
-            background: rgba(55, 65, 81, 0.8);
-        }
-
-        body.theme-minimal .auth-dropdown a:hover {
-            background: #f3f4f6;
-        }
-
-        .auth-dropdown.open {
-            display: block;
-        }
-
-        /* RESPONSIVE: di mobile pakai icon, di desktop pakai teks biasa */
-        @media (max-width: 640px) {
-            .auth-desktop {
-                display: none;
-            }
-
-            .auth-mobile {
-                display: inline-flex;
-            }
-        }
     </style>
 </head>
 
@@ -421,8 +308,7 @@
                 <span>🧠 Memory Flip Card</span>
                 <span>★ Waktu = Poin</span>
             </div>
-
-            <div class="auth-wrapper">
+            <div>
                 @auth
                     <span>Hi, <strong>{{ auth()->user()->name }}</strong></span>
                     <form action="{{ route('logout') }}" method="POST" style="margin:0; display:inline-block;">
@@ -433,24 +319,11 @@
                         </button>
                     </form>
                 @else
-                    {{-- Desktop: teks Login / Register biasa --}}
-                    <div class="auth-desktop">
-                        <a href="{{ route('login') }}" class="auth-link-login">Login</a>
-                        <a href="{{ route('register') }}" class="auth-link-register">
-                            Register
-                        </a>
-                    </div>
-
-                    {{-- Mobile: ikon profil + dropdown --}}
-                    <div class="auth-mobile">
-                        <button type="button" class="auth-icon-btn" id="authToggle" aria-label="Auth menu">
-                            👤
-                        </button>
-                        <div class="auth-dropdown" id="authDropdown">
-                            <a href="{{ route('login') }}">Login</a>
-                            <a href="{{ route('register') }}">Register</a>
-                        </div>
-                    </div>
+                    <a href="{{ route('login') }}" style="color:#a5b4fc; text-decoration:none; margin-right:8px;">Login</a>
+                    <a href="{{ route('register') }}"
+                        style="padding:4px 10px;border-radius:999px;border:none;background:#22c55e;color:#0b1120;text-decoration:none;font-weight:600;">
+                        Register
+                    </a>
                 @endauth
             </div>
         </div>
@@ -462,14 +335,225 @@
             <button type="button" class="theme-btn" data-theme="theme-cyberpunk">Cyberpunk</button>
         </div>
 
-        <!-- ... BAGIAN LAINNYA TETAP SAMA (hero, levels, scores, dll) ... -->
-        <!-- Saya tidak ubah isi section lain karena tidak terkait permintaan -->
+        <header class="hero">
+            <div>
+                <h1 class="hero-title">Latih fokus & kecepatanmu.</h1>
+                <p class="hero-subtitle">
+                    Cocokkan pasangan kartu secepat mungkin. Setiap level punya jumlah kartu yang berbeda.
+                    Poin dihitung dari waktu penyelesaian game — semakin cepat, semakin tinggi skor kamu.
+                </p>
+                <div class="levels">
+                    <div class="level-card">
+                        <div class="level-header">
+                            <div class="level-name">Easy</div>
+                            <div class="level-badge">20 kartu</div>
+                        </div>
+                        <div class="level-meta">
+                            10 pasang kartu. Cocok untuk pemanasan dan user baru.
+                        </div>
+                        <a href="{{ route('memory.index', ['level' => 'easy']) }}" class="btn-play">
+                            Mulai Easy
+                        </a>
+                    </div>
+                    <div class="level-card">
+                        <div class="level-header">
+                            <div class="level-name">Medium</div>
+                            <div class="level-badge">30 kartu</div>
+                        </div>
+                        <div class="level-meta">
+                            15 pasang kartu. Butuh fokus lebih dan hafalan yang kuat.
+                        </div>
+                        <a href="{{ route('memory.index', ['level' => 'medium']) }}" class="btn-play">
+                            Mulai Medium
+                        </a>
+                    </div>
+                    <div class="level-card">
+                        <div class="level-header">
+                            <div class="level-name">Hard</div>
+                            <div class="level-badge">50 kartu</div>
+                        </div>
+                        <div class="level-meta">
+                            25 pasang kartu. Mode hardcore untuk yang mau tantangan maksimal.
+                        </div>
+                        <a href="{{ route('memory.index', ['level' => 'hard']) }}" class="btn-play">
+                            Mulai Hard
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div>
+                {{-- Cara Bermain (placeholder menuju /rules) --}}
+                <div
+                    style="
+            background: rgba(15,23,42,0.9);
+            border-radius: 18px;
+            padding: 16px 18px;
+            border: 1px solid rgba(148,163,184,0.5);
+            box-shadow: 0 22px 60px rgba(15,23,42,0.9);
+        ">
+                    <div style="font-size:0.8rem; color:#9ca3af; margin-bottom:6px;">
+                        Panduan singkat
+                    </div>
 
-        {{-- (potongan kode lain kamu tetap, saya lewati di sini untuk menghemat tempat) --}}
-        <!-- MULAI DARI <header class="hero"> SAMPAI SEBELUM AUDIO & MUSIC TOGGLE -->
-        <!-- copy-paste saja dari versi kamu sebelumnya, karena tidak perlu diubah -->
+                    <h2 style="font-size:1.1rem; margin:0 0 8px; font-weight:600;">
+                        Cara Bermain Memory Flip Card
+                    </h2>
 
-        <!-- MUSIC -->
+                    <p style="font-size:0.9rem; color:#e5e7eb; margin:0 0 10px;">
+                        Cocokkan pasangan kartu dengan mengingat posisi setiap kartu.
+                        Setiap level punya jumlah kartu dan tingkat kesulitan yang berbeda.
+                    </p>
+
+                    <ul style="font-size:0.85rem; color:#9ca3af; padding-left:18px; margin:0 0 14px;">
+                        <li>Balik dua kartu untuk mencari pasangan yang sama.</li>
+                        <li>Jika salah, kartu akan tertutup kembali.</li>
+                        <li>Skor ditentukan dari kecepatan menyelesaikan level.</li>
+                    </ul>
+
+                    <p style="font-size:0.8rem; color:#9ca3af; margin:0 0 12px;">
+                        Halaman ini hanya placeholder. Aturan lengkap akan ada di halaman khusus.
+                    </p>
+
+                    <a href="{{ url('/rules') }}"
+                        style="
+                display:inline-flex;
+                align-items:center;
+                justify-content:center;
+                gap:6px;
+                padding:8px 14px;
+                border-radius:999px;
+                background:linear-gradient(135deg,#22c55e,#22d3ee);
+                color:#0b1120;
+                font-size:0.85rem;
+                font-weight:600;
+                text-decoration:none;
+           ">
+                        Lihat Aturan Lengkap
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <section class="scores-wrapper">
+            <div class="scores-header">
+                <h2>High Score Terbaru</h2>
+                <span style="font-size:0.8rem; color:#9ca3af;">
+                    Top 5 skor tertinggi per level (poin terbesar & waktu tercepat)
+                </span>
+            </div>
+
+            <div class="score-grids">
+                {{-- EASY --}}
+                <div>
+                    <h3 style="font-size:0.95rem; margin-bottom:4px;">Easy</h3>
+                    @php
+                        $easyScores = $bestEasy->where('points', '>', 0);
+                    @endphp
+
+                    @if ($easyScores->isEmpty())
+                        <div class="empty-state">Belum ada skor. Jadilah yang pertama!</div>
+                    @else
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Player</th>
+                                    <th>Waktu (detik)</th>
+                                    <th>Poin</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($easyScores as $i => $score)
+                                    <tr>
+                                        <td>{{ $i + 1 }}</td>
+                                        <td>{{ $score->user?->name ?? 'Guest' }}</td>
+                                        <td>{{ number_format($score->time_seconds, 1) }}</td>
+                                        <td>{{ $score->points }}</td>
+                                        <td>{{ $score->created_at->format('d/m H:i') }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
+                </div>
+
+                {{-- MEDIUM --}}
+                <div>
+                    <h3 style="font-size:0.95rem; margin-bottom:4px;">Medium</h3>
+                    @php
+                        $mediumScores = $bestMedium->where('points', '>', 0);
+                    @endphp
+
+                    @if ($mediumScores->isEmpty())
+                        <div class="empty-state">Belum ada skor di level ini.</div>
+                    @else
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Player</th>
+                                    <th>Waktu (detik)</th>
+                                    <th>Poin</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($mediumScores as $i => $score)
+                                    <tr>
+                                        <td>{{ $i + 1 }}</td>
+                                        <td>{{ $score->user?->name ?? 'Guest' }}</td>
+                                        <td>{{ number_format($score->time_seconds, 1) }}</td>
+                                        <td>{{ $score->points }}</td>
+                                        <td>{{ $score->created_at->format('d/m H:i') }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
+                </div>
+
+                {{-- HARD --}}
+                <div>
+                    <h3 style="font-size:0.95rem; margin-bottom:4px;">Hard</h3>
+                    @php
+                        $hardScores = $bestHard->where('points', '>', 0);
+                    @endphp
+
+                    @if ($hardScores->isEmpty())
+                        <div class="empty-state">Belum ada skor di level ini.</div>
+                    @else
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Player</th>
+                                    <th>Waktu (detik)</th>
+                                    <th>Poin</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($hardScores as $i => $score)
+                                    <tr>
+                                        <td>{{ $i + 1 }}</td>
+                                        <td>{{ $score->user?->name ?? 'Guest' }}</td>
+                                        <td>{{ number_format($score->time_seconds, 1) }}</td>
+                                        <td>{{ $score->points }}</td>
+                                        <td>{{ $score->created_at->format('d/m H:i') }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
+                </div>
+            </div>
+
+
+        </section>
+    </div>
+
+    <!-- MUSIC -->
     <audio id="landingMusic" loop>
         <source src="{{ asset('audio/mmry.mp3') }}" type="audio/mpeg">
     </audio>
@@ -480,7 +564,7 @@
     </button>
 
     <script>
-        // THEME SWITCHER (tetap sama)
+        // THEME SWITCHER
         const bodyEl = document.getElementById('body');
         const themeBtns = document.querySelectorAll('.theme-btn');
         let savedTheme = localStorage.getItem('memoryTheme') || 'theme-dark-neon';
@@ -508,7 +592,7 @@
             });
         });
 
-        // MUSIC CONTROLLER (tetap sama)
+        // MUSIC CONTROLLER
         const musicEl = document.getElementById('landingMusic');
         const toggleBtn = document.getElementById('musicToggle');
         const icon = document.getElementById('musicIcon');
@@ -533,6 +617,7 @@
             applyMusicState();
         });
 
+        // Mulai musik setelah ada interaksi user
         const userInteractionEvents = ['click', 'keydown', 'touchstart', 'scroll'];
 
         function enableMusicOnce() {
@@ -546,21 +631,6 @@
         userInteractionEvents.forEach(evt =>
             document.addEventListener(evt, enableMusicOnce)
         );
-
-        // ===== AUTH DROPDOWN (mobile) =====
-        const authToggle = document.getElementById('authToggle');
-        const authDropdown = document.getElementById('authDropdown');
-
-        if (authToggle && authDropdown) {
-            authToggle.addEventListener('click', (e) => {
-                e.stopPropagation();
-                authDropdown.classList.toggle('open');
-            });
-
-            document.addEventListener('click', () => {
-                authDropdown.classList.remove('open');
-            });
-        }
     </script>
 </body>
 
