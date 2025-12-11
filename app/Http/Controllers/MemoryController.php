@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\GameScore;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class MemoryController extends Controller
