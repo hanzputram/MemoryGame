@@ -304,7 +304,7 @@
         function sendResultToServer(elapsedSeconds) {
             const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            fetch('{{ route('memory.finish') }}', {
+            fetch('/memory/finish', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -328,11 +328,11 @@
 
                     if (data.success) {
                         resultBox.innerHTML = `
-                        <strong>🎉 Game Selesai!</strong><br>
-                        Level: ${data.level}<br>
-                        Waktu: ${data.elapsed_seconds.toFixed(1)} detik<br>
-                        Point: ${data.points}
-                    `;
+                <strong>🎉 Game Selesai!</strong><br>
+                Level: ${data.level}<br>
+                Waktu: ${data.elapsed_seconds.toFixed(1)} detik<br>
+                Point: ${data.points}
+            `;
                     } else {
                         resultBox.innerHTML = data.message || 'Terjadi kesalahan saat menyimpan skor.';
                     }
@@ -342,6 +342,7 @@
                     resultBox.innerHTML = '❌ Terjadi kesalahan koneksi ke server.';
                 });
         }
+
 
         function restartGame() {
             window.location.reload();
