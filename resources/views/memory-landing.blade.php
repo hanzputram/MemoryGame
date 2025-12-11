@@ -298,6 +298,119 @@
             background: #111827;
             color: #f9fafb;
         }
+
+        /* ===== AUTH AREA (Login/Register responsive) ===== */
+
+        .auth-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        .auth-desktop {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .auth-link-login {
+            color: #a5b4fc;
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-right: 4px;
+        }
+
+        .auth-link-register {
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: none;
+            background: #22c55e;
+            color: #0b1120;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* Mobile icon */
+        .auth-mobile {
+            display: none;
+            position: relative;
+        }
+
+        .auth-icon-btn {
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.9);
+            background: rgba(15, 23, 42, 0.9);
+            color: #e5e7eb;
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        body.theme-minimal .auth-icon-btn {
+            background: #111827;
+            color: #f9fafb;
+        }
+
+        .auth-dropdown {
+            position: absolute;
+            right: 0;
+            top: 115%;
+            background: rgba(15, 23, 42, 0.98);
+            border-radius: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            min-width: 140px;
+            padding: 6px 0;
+            box-shadow: 0 15px 30px rgba(15, 23, 42, 0.9);
+            display: none;
+            z-index: 30;
+        }
+
+        body.theme-minimal .auth-dropdown {
+            background: #ffffff;
+            border-color: #e5e7eb;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+        }
+
+        .auth-dropdown a {
+            display: block;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            color: #e5e7eb;
+            text-decoration: none;
+        }
+
+        body.theme-minimal .auth-dropdown a {
+            color: #111827;
+        }
+
+        .auth-dropdown a:hover {
+            background: rgba(55, 65, 81, 0.8);
+        }
+
+        body.theme-minimal .auth-dropdown a:hover {
+            background: #f3f4f6;
+        }
+
+        .auth-dropdown.open {
+            display: block;
+        }
+
+        /* RESPONSIVE: di mobile pakai icon, di desktop pakai teks biasa */
+        @media (max-width: 640px) {
+            .auth-desktop {
+                display: none;
+            }
+
+            .auth-mobile {
+                display: inline-flex;
+            }
+        }
     </style>
 </head>
 
@@ -308,24 +421,42 @@
                 <span>🧠 Memory Flip Card</span>
                 <span>★ Waktu = Poin</span>
             </div>
-            <div>
-                @auth
-                    <span>Hi, <strong>{{ auth()->user()->name }}</strong></span>
-                    <form action="{{ route('logout') }}" method="POST" style="margin:0; display:inline-block;">
-                        @csrf
-                        <button type="submit"
-                            style="padding:4px 10px;border-radius:999px;border:none;background:#ef4444;color:#fff;cursor:pointer;font-size:0.8rem;">
-                            Logout
-                        </button>
-                    </form>
-                @else
-                    <a href="{{ route('login') }}" style="color:#a5b4fc; text-decoration:none; margin-right:8px;">Login</a>
-                    <a href="{{ route('register') }}"
-                        style="padding:4px 10px;border-radius:999px;border:none;background:#22c55e;color:#0b1120;text-decoration:none;font-weight:600;">
-                        Register
-                    </a>
-                @endauth
+            <div class="jarak">
+                <div class="pill">
+                    <span>🧠 Memory Flip Card</span>
+                    <span>★ Waktu = Poin</span>
+                </div>
+                <div class="auth-wrapper">
+                    @auth
+                        <span>Hi, <strong>{{ auth()->user()->name }}</strong></span>
+                        <form action="{{ route('logout') }}" method="POST" style="margin:0; display:inline-block;">
+                            @csrf
+                            <button type="submit"
+                                style="padding:4px 10px;border-radius:999px;border:none;background:#ef4444;color:#fff;cursor:pointer;font-size:0.8rem;">
+                                Logout
+                            </button>
+                        </form>
+                    @else
+                        {{-- Desktop: teks Login / Register biasa --}}
+                        <div class="auth-desktop">
+                            <a href="{{ route('login') }}" class="auth-link-login">Login</a>
+                            <a href="{{ route('register') }}" class="auth-link-register">Register</a>
+                        </div>
+
+                        {{-- Mobile: ikon profil + dropdown --}}
+                        <div class="auth-mobile">
+                            <button type="button" class="auth-icon-btn" id="authToggle" aria-label="Auth menu">
+                                👤
+                            </button>
+                            <div class="auth-dropdown" id="authDropdown">
+                                <a href="{{ route('login') }}">Login</a>
+                                <a href="{{ route('register') }}">Register</a>
+                            </div>
+                        </div>
+                    @endauth
+                </div>
             </div>
+
         </div>
 
         {{-- Theme Selector --}}
@@ -564,6 +695,22 @@
     </button>
 
     <script>
+        // ===== AUTH DROPDOWN (mobile) =====
+        const authToggle = document.getElementById('authToggle');
+        const authDropdown = document.getElementById('authDropdown');
+
+        if (authToggle && authDropdown) {
+            authToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                authDropdown.classList.toggle('open');
+            });
+
+            // klik di luar dropdown -> tutup
+            document.addEventListener('click', () => {
+                authDropdown.classList.remove('open');
+            });
+        }
+
         // THEME SWITCHER
         const bodyEl = document.getElementById('body');
         const themeBtns = document.querySelectorAll('.theme-btn');
