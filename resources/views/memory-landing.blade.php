@@ -333,7 +333,6 @@
             <span style="color:#9ca3af;">Theme:</span>
             <button type="button" class="theme-btn" data-theme="theme-dark-neon">Dark Neon</button>
             <button type="button" class="theme-btn" data-theme="theme-cyberpunk">Cyberpunk</button>
-            <button type="button" class="theme-btn" data-theme="theme-minimal">Minimal</button>
         </div>
 
         <header class="hero">

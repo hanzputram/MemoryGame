@@ -130,6 +130,7 @@
         const musicLabel = document.getElementById('musicLabel');
 
         let isMuted = localStorage.getItem('memoryGameMuted') === 'true';
+        let gameStarted = false; // cegah start dua kali
 
         function applyMuteState() {
             bgMusic.muted = isMuted;
@@ -138,30 +139,68 @@
         }
         applyMuteState();
 
-        musicToggle.addEventListener('click', () => {
+        musicToggle.addEventListener('click', (e) => {
+            // jangan dianggap input untuk start game
+            e.stopPropagation();
+
             isMuted = !isMuted;
             localStorage.setItem('memoryGameMuted', isMuted);
             applyMuteState();
-            if (!isMuted && bgMusic.paused) bgMusic.play().catch(() => {});
+            if (!isMuted && bgMusic.paused) {
+                bgMusic.play().catch(() => {});
+            }
         });
 
         // Start music (allowed after user interaction)
         const userActivationEvents = ['click', 'keydown', 'touchstart'];
 
         function activateMusic() {
-            if (!isMuted && bgMusic.paused) bgMusic.play().catch(() => {});
-            userActivationEvents.forEach(e => document.removeEventListener(e, activateMusic));
+            if (!isMuted && bgMusic.paused) {
+                bgMusic.play().catch(() => {});
+            }
+            userActivationEvents.forEach(e =>
+                document.removeEventListener(e, activateMusic)
+            );
         }
-        userActivationEvents.forEach(e => document.addEventListener(e, activateMusic));
 
-        // Trigger NEXT PAGE ONLY when SPACE pressed
+        userActivationEvents.forEach(e =>
+            document.addEventListener(e, activateMusic)
+        );
+
+        // Fungsi umum untuk mulai game
+        function startGame() {
+            if (gameStarted) return;
+            gameStarted = true;
+
+            startScreen.classList.add('fadeout');
+            setTimeout(() => {
+                window.location.href = "{{ route('memory.landing') }}";
+            }, 600);
+        }
+
+        // Mulai dengan SPACE
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space') {
-                startScreen.classList.add('fadeout');
-                setTimeout(() => {
-                    window.location.href = "{{ route('memory.landing') }}";
-                }, 600);
+                e.preventDefault();
+                startGame();
             }
+        });
+
+        // Mulai dengan klik / tap di mana saja (kecuali tombol musik)
+        document.addEventListener('click', (e) => {
+            if (e.target === musicToggle || musicToggle.contains(e.target)) {
+                return;
+            }
+            startGame();
+        });
+
+        document.addEventListener('touchstart', (e) => {
+            if (e.target === musicToggle || musicToggle.contains(e.target)) {
+                return;
+            }
+            startGame();
+        }, {
+            passive: true
         });
     </script>
 

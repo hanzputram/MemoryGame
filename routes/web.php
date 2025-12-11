@@ -3,12 +3,17 @@
 use App\Http\Controllers\GameController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MemoryController;
 use Illuminate\Support\Facades\Artisan;
 
 Route::get('/migrate', function () {
     Artisan::call('migrate', ['--force' => true]);
     return 'Migration executed successfully!';
 });
+
+
+Route::post('/memory/finish', [MemoryController::class, 'finish'])
+    ->name('memory.finish');
 
 Route::get('/', function () {
     return view('start-screen');
