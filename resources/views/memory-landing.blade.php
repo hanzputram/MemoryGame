@@ -421,42 +421,35 @@
                 <span>🧠 Memory Flip Card</span>
                 <span>★ Waktu = Poin</span>
             </div>
-            <div class="jarak">
-                <div class="pill">
-                    <span>🧠 Memory Flip Card</span>
-                    <span>★ Waktu = Poin</span>
-                </div>
-                <div class="auth-wrapper">
-                    @auth
-                        <span>Hi, <strong>{{ auth()->user()->name }}</strong></span>
-                        <form action="{{ route('logout') }}" method="POST" style="margin:0; display:inline-block;">
-                            @csrf
-                            <button type="submit"
-                                style="padding:4px 10px;border-radius:999px;border:none;background:#ef4444;color:#fff;cursor:pointer;font-size:0.8rem;">
-                                Logout
-                            </button>
-                        </form>
-                    @else
-                        {{-- Desktop: teks Login / Register biasa --}}
-                        <div class="auth-desktop">
-                            <a href="{{ route('login') }}" class="auth-link-login">Login</a>
-                            <a href="{{ route('register') }}" class="auth-link-register">Register</a>
-                        </div>
+            <div class="auth-wrapper">
+                @auth
+                    <span>Hi, <strong>{{ auth()->user()->name }}</strong></span>
+                    <form action="{{ route('logout') }}" method="POST" style="margin:0; display:inline-block;">
+                        @csrf
+                        <button type="submit"
+                            style="padding:4px 10px;border-radius:999px;border:none;background:#ef4444;color:#fff;cursor:pointer;font-size:0.8rem;">
+                            Logout
+                        </button>
+                    </form>
+                @else
+                    {{-- Desktop: teks Login / Register biasa --}}
+                    <div class="auth-desktop">
+                        <a href="{{ route('login') }}" class="auth-link-login">Login</a>
+                        <a href="{{ route('register') }}" class="auth-link-register">Register</a>
+                    </div>
 
-                        {{-- Mobile: ikon profil + dropdown --}}
-                        <div class="auth-mobile">
-                            <button type="button" class="auth-icon-btn" id="authToggle" aria-label="Auth menu">
-                                👤
-                            </button>
-                            <div class="auth-dropdown" id="authDropdown">
-                                <a href="{{ route('login') }}">Login</a>
-                                <a href="{{ route('register') }}">Register</a>
-                            </div>
+                    {{-- Mobile: ikon profil + dropdown --}}
+                    <div class="auth-mobile">
+                        <button type="button" class="auth-icon-btn" id="authToggle" aria-label="Auth menu">
+                            👤
+                        </button>
+                        <div class="auth-dropdown" id="authDropdown">
+                            <a href="{{ route('login') }}">Login</a>
+                            <a href="{{ route('register') }}">Register</a>
                         </div>
-                    @endauth
-                </div>
+                    </div>
+                @endauth
             </div>
-
         </div>
 
         {{-- Theme Selector --}}
