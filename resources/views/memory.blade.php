@@ -7,212 +7,225 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <style>
-    body {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background: #0f172a;
-        color: #e5e7eb;
-        margin: 0;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+        /* ================= GLOBAL ================= */
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #0f172a;
+            color: #e5e7eb;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    a.back-link {
-        color: #a5b4fc;
-        font-size: 0.9rem;
-        text-decoration: none;
-        margin-bottom: 6px;
-        text-align: center;
-    }
+        a.back-link {
+            color: #a5b4fc;
+            font-size: 0.95rem;
+            text-decoration: none;
+            margin-bottom: 8px;
+            text-align: center;
+        }
 
-    h1 {
-        margin-bottom: 0.8rem;
-        text-align: center;
-    }
-
-    /* ================= INFO BAR ================= */
-    .info-bar {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-        margin-bottom: 1rem;
-        flex-wrap: wrap;           /* 🔥 responsif */
-        justify-content: center;
-        text-align: center;
-    }
-
-    .badge {
-        padding: 4px 10px;
-        border-radius: 999px;
-        background: #1f2937;
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        letter-spacing: .08em;
-    }
-
-    .btn {
-        padding: 8px 14px;
-        border-radius: 999px;
-        background: #22c55e;
-        border: none;
-        font-weight: 600;
-        cursor: pointer;
-        font-size: 0.9rem;
-    }
-
-    .btn:hover {
-        filter: brightness(1.05);
-    }
-
-    /* ================= GAME GRID RESPONSIVE ================= */
-
-    .game-container {
-        display: grid;
-        gap: 10px;
-        justify-content: center;
-        max-width: 100%;
-        padding: 10px;
-    }
-
-    /* EASY */
-    .game-container.easy {
-        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-        max-width: 480px;
-    }
-
-    /* MEDIUM */
-    .game-container.medium {
-        grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
-        max-width: 580px;
-    }
-
-    /* HARD */
-    .game-container.hard {
-        grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
-        max-width: 780px;
-    }
-
-    /* ================= CARD RESPONSIVE ================= */
-
-    .card {
-        width: 100%;
-        padding-top: 130%;   /* aspect ratio 70x90 = 0.77 */
-        position: relative;
-        perspective: 900px;
-        cursor: pointer;
-    }
-
-    .card-inner {
-        position: absolute;
-        inset: 0;
-        transform-style: preserve-3d;
-        transition: transform 0.4s ease;
-    }
-
-    .card.flipped .card-inner {
-        transform: rotateY(180deg);
-    }
-
-    .card-face {
-        position: absolute;
-        inset: 0;
-        border-radius: 8px;
-        backface-visibility: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: 600;
-
-        /* responsive font size */
-        font-size: clamp(0.9rem, 2.5vw, 1.3rem);
-    }
-
-    .card-back {
-        background: linear-gradient(135deg, #22c55e, #22d3ee);
-        border: 2px solid #a7f3d0;
-    }
-
-    .card-front {
-        background: #111827;
-        border: 2px solid #4b5563;
-        transform: rotateY(180deg);
-    }
-
-    /* MATCH ANIMATION */
-    .card.matched .card-inner {
-        animation: pulse 0.5s ease;
-    }
-
-    @keyframes pulse {
-        0% { transform: rotateY(180deg) scale(1); }
-        50% { transform: rotateY(180deg) scale(1.08); }
-        100% { transform: rotateY(180deg) scale(1); }
-    }
-
-    .status-bar {
-        margin-top: 1rem;
-        text-align: center;
-    }
-
-    .result-box {
-        margin-top: 16px;
-        padding: 12px 16px;
-        background: #1f2937;
-        border-radius: 10px;
-        max-width: 90%;
-        text-align: center;
-    }
-
-    /* ================= MUSIC BUTTON RESPONSIVE ================= */
-
-    #musicToggle {
-        position: fixed;
-        right: 16px;
-        bottom: 16px;
-        padding: 8px 14px;
-        font-size: 0.85rem;
-        background: rgba(15, 23, 42, 0.8);
-        border: 1px solid rgba(148, 163, 184, 0.6);
-        border-radius: 999px;
-        color: #f1f5f9;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        backdrop-filter: blur(4px);
-    }
-
-    /* ================= MOBILE BREAKPOINTS ================= */
-
-    @media (max-width: 480px) {
         h1 {
-            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            text-align: center;
+            font-size: clamp(1.3rem, 3vw, 2rem);
+        }
+
+        /* ================= INFO BAR ================= */
+        .info-bar {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
         }
 
         .badge {
-            font-size: 0.75rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: #1f2937;
+            font-size: clamp(0.7rem, 1.8vw, 0.9rem);
+            text-transform: uppercase;
+            letter-spacing: .08em;
         }
 
-        .info-bar {
-            gap: 0.6rem;
+        .btn {
+            padding: 8px 16px;
+            border-radius: 999px;
+            background: #22c55e;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: clamp(0.8rem, 2vw, 1rem);
         }
 
-        #musicToggle {
-            padding: 6px 10px;
-            font-size: 0.75rem;
-            right: 10px;
-            bottom: 10px;
+        .btn:hover {
+            filter: brightness(1.05);
         }
-    }
 
-    /* Tablet */
-    @media (max-width: 768px) {
+        /* ================= GAME GRID RESPONSIVE ================= */
+        .game-container {
+            display: grid;
+            gap: 10px;
+            justify-content: center;
+            max-width: 100%;
+            padding: 10px;
+        }
+
+        .game-container.easy {
+            grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+            max-width: 500px;
+        }
+
+        .game-container.medium {
+            grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));
+            max-width: 650px;
+        }
+
         .game-container.hard {
-            max-width: 95vw;
+            grid-template-columns: repeat(auto-fit, minmax(55px, 1fr));
+            max-width: 900px;
         }
-    }
-</style>
 
+        /* ================= CARD ================= */
+        .card {
+            width: 100%;
+            padding-top: 130%;
+            position: relative;
+            perspective: 900px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: absolute;
+            inset: 0;
+            transform-style: preserve-3d;
+            transition: transform 0.4s ease;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            inset: 0;
+            border-radius: 8px;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: clamp(0.8rem, 3.5vw, 1.4rem);
+            font-weight: 600;
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #22c55e, #22d3ee);
+            border: 2px solid #a7f3d0;
+        }
+
+        .card-front {
+            background: #111827;
+            border: 2px solid #4b5563;
+            transform: rotateY(180deg);
+        }
+
+        /* MATCH ANIMATION */
+        .card.matched .card-inner {
+            animation: pulse 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: rotateY(180deg) scale(1);
+            }
+
+            50% {
+                transform: rotateY(180deg) scale(1.08);
+            }
+
+            100% {
+                transform: rotateY(180deg) scale(1);
+            }
+        }
+
+        /* ================= RESULT BOX ================= */
+        .result-box {
+            margin-top: 16px;
+            padding: 14px 18px;
+            background: #1f2937;
+            border-radius: 10px;
+            max-width: 95%;
+            text-align: center;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+        }
+
+        /* ================= MUSIC BUTTON ================= */
+        #musicToggle {
+            position: fixed;
+            right: 14px;
+            bottom: 14px;
+            padding: 8px 14px;
+            font-size: clamp(0.75rem, 2vw, 0.95rem);
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            border-radius: 999px;
+            color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(4px);
+        }
+
+        /* ================= BREAKPOINTS ================= */
+        @media (max-width: 430px) {
+            .game-container.easy {
+                grid-template-columns: repeat(auto-fit, minmax(55px, 1fr));
+            }
+
+            .game-container.medium {
+                grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+            }
+
+            .game-container.hard {
+                grid-template-columns: repeat(auto-fit, minmax(45px, 1fr));
+            }
+
+            #musicToggle {
+                right: 8px;
+                bottom: 8px;
+                padding: 6px 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .game-container.hard {
+                max-width: 95vw;
+            }
+        }
+
+        @media (min-width: 1400px) {
+            .game-container.easy {
+                max-width: 600px;
+            }
+
+            .game-container.medium {
+                max-width: 800px;
+            }
+
+            .game-container.hard {
+                max-width: 1100px;
+            }
+
+            .card-face {
+                font-size: clamp(1.2rem, 2vw, 2rem);
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -254,7 +267,6 @@
         <span id="musicIcon">🔊</span>
         <span id="musicLabel">Music: ON</span>
     </button>
-
 
     <script>
         /** ================= GAME LOGIC ================= **/
@@ -387,7 +399,6 @@
                     resultBox.innerHTML = '❌ Terjadi kesalahan koneksi ke server.';
                 });
         }
-
 
         function restartGame() {
             window.location.reload();
