@@ -72,29 +72,26 @@
             display: grid;
             gap: 10px;
             justify-content: center;
-            max-width: 100%;
-            padding: 10px;
+            width: 100%;
+            max-width: 95vw;
         }
 
         .game-container.easy {
-            grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-            max-width: 500px;
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
         }
 
         .game-container.medium {
-            grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));
-            max-width: 650px;
+            grid-template-columns: repeat(auto-fit, minmax(55px, 1fr));
         }
 
         .game-container.hard {
-            grid-template-columns: repeat(auto-fit, minmax(55px, 1fr));
-            max-width: 900px;
+            grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
         }
 
         /* ================= CARD ================= */
         .card {
             width: 100%;
-            padding-top: 130%;
+            aspect-ratio: 7 / 9;
             position: relative;
             perspective: 900px;
             cursor: pointer;
@@ -119,7 +116,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: clamp(0.8rem, 3.5vw, 1.4rem);
+            font-size: clamp(0.8rem, 3.5vw, 1.5rem);
             font-weight: 600;
         }
 
@@ -134,7 +131,6 @@
             transform: rotateY(180deg);
         }
 
-        /* MATCH ANIMATION */
         .card.matched .card-inner {
             animation: pulse 0.5s ease;
         }
@@ -184,27 +180,21 @@
         /* ================= BREAKPOINTS ================= */
         @media (max-width: 430px) {
             .game-container.easy {
-                grid-template-columns: repeat(auto-fit, minmax(55px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(45px, 1fr));
             }
 
             .game-container.medium {
-                grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
             }
 
             .game-container.hard {
-                grid-template-columns: repeat(auto-fit, minmax(45px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(35px, 1fr));
             }
 
             #musicToggle {
                 right: 8px;
                 bottom: 8px;
                 padding: 6px 10px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .game-container.hard {
-                max-width: 95vw;
             }
         }
 
