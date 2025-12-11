@@ -7,167 +7,212 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <style>
-        body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background: #0f172a;
-            color: #e5e7eb;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #0f172a;
+        color: #e5e7eb;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        a.back-link {
-            color: #a5b4fc;
-            font-size: 0.85rem;
-            text-decoration: none;
-            margin-bottom: 4px;
-            display: inline-block;
-        }
+    a.back-link {
+        color: #a5b4fc;
+        font-size: 0.9rem;
+        text-decoration: none;
+        margin-bottom: 6px;
+        text-align: center;
+    }
 
+    h1 {
+        margin-bottom: 0.8rem;
+        text-align: center;
+    }
+
+    /* ================= INFO BAR ================= */
+    .info-bar {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;           /* 🔥 responsif */
+        justify-content: center;
+        text-align: center;
+    }
+
+    .badge {
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: #1f2937;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+    }
+
+    .btn {
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: #22c55e;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+
+    .btn:hover {
+        filter: brightness(1.05);
+    }
+
+    /* ================= GAME GRID RESPONSIVE ================= */
+
+    .game-container {
+        display: grid;
+        gap: 10px;
+        justify-content: center;
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    /* EASY */
+    .game-container.easy {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        max-width: 480px;
+    }
+
+    /* MEDIUM */
+    .game-container.medium {
+        grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+        max-width: 580px;
+    }
+
+    /* HARD */
+    .game-container.hard {
+        grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
+        max-width: 780px;
+    }
+
+    /* ================= CARD RESPONSIVE ================= */
+
+    .card {
+        width: 100%;
+        padding-top: 130%;   /* aspect ratio 70x90 = 0.77 */
+        position: relative;
+        perspective: 900px;
+        cursor: pointer;
+    }
+
+    .card-inner {
+        position: absolute;
+        inset: 0;
+        transform-style: preserve-3d;
+        transition: transform 0.4s ease;
+    }
+
+    .card.flipped .card-inner {
+        transform: rotateY(180deg);
+    }
+
+    .card-face {
+        position: absolute;
+        inset: 0;
+        border-radius: 8px;
+        backface-visibility: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 600;
+
+        /* responsive font size */
+        font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+    }
+
+    .card-back {
+        background: linear-gradient(135deg, #22c55e, #22d3ee);
+        border: 2px solid #a7f3d0;
+    }
+
+    .card-front {
+        background: #111827;
+        border: 2px solid #4b5563;
+        transform: rotateY(180deg);
+    }
+
+    /* MATCH ANIMATION */
+    .card.matched .card-inner {
+        animation: pulse 0.5s ease;
+    }
+
+    @keyframes pulse {
+        0% { transform: rotateY(180deg) scale(1); }
+        50% { transform: rotateY(180deg) scale(1.08); }
+        100% { transform: rotateY(180deg) scale(1); }
+    }
+
+    .status-bar {
+        margin-top: 1rem;
+        text-align: center;
+    }
+
+    .result-box {
+        margin-top: 16px;
+        padding: 12px 16px;
+        background: #1f2937;
+        border-radius: 10px;
+        max-width: 90%;
+        text-align: center;
+    }
+
+    /* ================= MUSIC BUTTON RESPONSIVE ================= */
+
+    #musicToggle {
+        position: fixed;
+        right: 16px;
+        bottom: 16px;
+        padding: 8px 14px;
+        font-size: 0.85rem;
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        border-radius: 999px;
+        color: #f1f5f9;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        backdrop-filter: blur(4px);
+    }
+
+    /* ================= MOBILE BREAKPOINTS ================= */
+
+    @media (max-width: 480px) {
         h1 {
-            margin-bottom: 0.5rem;
-        }
-
-        .info-bar {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-            margin-bottom: 1rem;
+            font-size: 1.3rem;
         }
 
         .badge {
-            padding: 4px 10px;
-            border-radius: 999px;
-            background: #1f2937;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: .08em;
+            font-size: 0.75rem;
         }
 
-        .game-container {
-            display: grid;
-            gap: 10px;
-            justify-content: center;
+        .info-bar {
+            gap: 0.6rem;
         }
 
-        .game-container.easy {
-            grid-template-columns: repeat(5, 90px);
-        }
-
-        .game-container.medium {
-            grid-template-columns: repeat(6, 80px);
-        }
-
-        .game-container.hard {
-            grid-template-columns: repeat(10, 70px);
-        }
-
-        .card {
-            width: 70px;
-            height: 90px;
-            perspective: 800px;
-            cursor: pointer;
-        }
-
-        .card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-            transition: transform 0.4s ease;
-        }
-
-        .card.flipped .card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .card-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 8px;
-            backface-visibility: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .card-back {
-            background: linear-gradient(135deg, #22c55e, #22d3ee);
-            border: 2px solid #a7f3d0;
-        }
-
-        .card-front {
-            background: #111827;
-            border: 2px solid #4b5563;
-            transform: rotateY(180deg);
-        }
-
-        .card.matched .card-inner {
-            animation: pulse 0.5s ease;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: rotateY(180deg) scale(1);
-            }
-
-            50% {
-                transform: rotateY(180deg) scale(1.08);
-            }
-
-            100% {
-                transform: rotateY(180deg) scale(1);
-            }
-        }
-
-        .status-bar {
-            margin-top: 1rem;
-        }
-
-        .btn {
-            padding: 8px 14px;
-            border-radius: 999px;
-            background: #22c55e;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-
-        .btn:hover {
-            filter: brightness(1.05);
-        }
-
-        .result-box {
-            margin-top: 16px;
-            padding: 12px 16px;
-            background: #1f2937;
-            border-radius: 10px;
-            max-width: 420px;
-        }
-
-        /* 💿 Music toggle button */
         #musicToggle {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            padding: 8px 14px;
-            font-size: 0.85rem;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(148, 163, 184, 0.6);
-            border-radius: 999px;
-            cursor: pointer;
-            color: #f1f5f9;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            padding: 6px 10px;
+            font-size: 0.75rem;
+            right: 10px;
+            bottom: 10px;
         }
-    </style>
+    }
+
+    /* Tablet */
+    @media (max-width: 768px) {
+        .game-container.hard {
+            max-width: 95vw;
+        }
+    }
+</style>
+
 </head>
 
 <body>
