@@ -7,7 +7,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <style>
-        /* ================= GLOBAL ================= */
         body {
             font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             background: #0f172a;
@@ -21,85 +20,61 @@
 
         a.back-link {
             color: #a5b4fc;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             text-decoration: none;
-            margin-bottom: 8px;
-            text-align: center;
+            margin-bottom: 4px;
+            display: inline-block;
         }
 
         h1 {
-            margin-bottom: 0.8rem;
-            text-align: center;
-            font-size: clamp(1.3rem, 3vw, 2rem);
+            margin-bottom: 0.5rem;
         }
 
-        /* ================= INFO BAR ================= */
         .info-bar {
             display: flex;
-            gap: 1rem;
+            gap: 1.5rem;
             align-items: center;
             margin-bottom: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            text-align: center;
         }
 
         .badge {
-            padding: 6px 12px;
+            padding: 4px 10px;
             border-radius: 999px;
             background: #1f2937;
-            font-size: clamp(0.7rem, 1.8vw, 0.9rem);
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: .08em;
         }
 
-        .btn {
-            padding: 8px 16px;
-            border-radius: 999px;
-            background: #22c55e;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: clamp(0.8rem, 2vw, 1rem);
-        }
-
-        .btn:hover {
-            filter: brightness(1.05);
-        }
-
-        /* ================= GAME GRID RESPONSIVE ================= */
         .game-container {
             display: grid;
             gap: 10px;
             justify-content: center;
-            width: 100%;
-            max-width: 95vw;
         }
 
         .game-container.easy {
-            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            grid-template-columns: repeat(5, 90px);
         }
 
         .game-container.medium {
-            grid-template-columns: repeat(auto-fit, minmax(55px, 1fr));
+            grid-template-columns: repeat(6, 80px);
         }
 
         .game-container.hard {
-            grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+            grid-template-columns: repeat(10, 70px);
         }
 
-        /* ================= CARD ================= */
         .card {
-            width: 100%;
-            aspect-ratio: 7 / 9;
-            position: relative;
-            perspective: 900px;
+            width: 70px;
+            height: 90px;
+            perspective: 800px;
             cursor: pointer;
         }
 
         .card-inner {
-            position: absolute;
-            inset: 0;
+            position: relative;
+            width: 100%;
+            height: 100%;
             transform-style: preserve-3d;
             transition: transform 0.4s ease;
         }
@@ -110,14 +85,15 @@
 
         .card-face {
             position: absolute;
-            inset: 0;
+            width: 100%;
+            height: 100%;
             border-radius: 8px;
             backface-visibility: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: clamp(0.8rem, 3.5vw, 1.5rem);
             font-weight: 600;
+            font-size: 1.1rem;
         }
 
         .card-back {
@@ -149,71 +125,47 @@
             }
         }
 
-        /* ================= RESULT BOX ================= */
-        .result-box {
-            margin-top: 16px;
-            padding: 14px 18px;
-            background: #1f2937;
-            border-radius: 10px;
-            max-width: 95%;
-            text-align: center;
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
+        .status-bar {
+            margin-top: 1rem;
         }
 
-        /* ================= MUSIC BUTTON ================= */
+        .btn {
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: #22c55e;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .btn:hover {
+            filter: brightness(1.05);
+        }
+
+        .result-box {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: #1f2937;
+            border-radius: 10px;
+            max-width: 420px;
+        }
+
+        /* 💿 Music toggle button */
         #musicToggle {
             position: fixed;
-            right: 14px;
-            bottom: 14px;
+            right: 20px;
+            bottom: 20px;
             padding: 8px 14px;
-            font-size: clamp(0.75rem, 2vw, 0.95rem);
-            background: rgba(15, 23, 42, 0.85);
+            font-size: 0.85rem;
+            background: rgba(15, 23, 42, 0.8);
             border: 1px solid rgba(148, 163, 184, 0.6);
             border-radius: 999px;
+            cursor: pointer;
             color: #f1f5f9;
             display: flex;
             align-items: center;
             gap: 6px;
-            backdrop-filter: blur(4px);
-        }
-
-        /* ================= BREAKPOINTS ================= */
-        @media (max-width: 430px) {
-            .game-container.easy {
-                grid-template-columns: repeat(auto-fit, minmax(45px, 1fr));
-            }
-
-            .game-container.medium {
-                grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
-            }
-
-            .game-container.hard {
-                grid-template-columns: repeat(auto-fit, minmax(35px, 1fr));
-            }
-
-            #musicToggle {
-                right: 8px;
-                bottom: 8px;
-                padding: 6px 10px;
-            }
-        }
-
-        @media (min-width: 1400px) {
-            .game-container.easy {
-                max-width: 600px;
-            }
-
-            .game-container.medium {
-                max-width: 800px;
-            }
-
-            .game-container.hard {
-                max-width: 1100px;
-            }
-
-            .card-face {
-                font-size: clamp(1.2rem, 2vw, 2rem);
-            }
         }
     </style>
 </head>
@@ -257,6 +209,7 @@
         <span id="musicIcon">🔊</span>
         <span id="musicLabel">Music: ON</span>
     </button>
+
 
     <script>
         /** ================= GAME LOGIC ================= **/
@@ -389,6 +342,7 @@
                     resultBox.innerHTML = '❌ Terjadi kesalahan koneksi ke server.';
                 });
         }
+
 
         function restartGame() {
             window.location.reload();
